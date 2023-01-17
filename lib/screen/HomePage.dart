@@ -1,9 +1,14 @@
 import 'package:echessapp/Utils/constrant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -102,9 +107,10 @@ class appleButton extends StatelessWidget {
 }
 
 class FacebookButton extends StatelessWidget {
-  const FacebookButton({
+   FacebookButton({
     Key? key,
   }) : super(key: key);
+  Map getuser = {};
 
   @override
   Widget build(BuildContext context) {
@@ -112,12 +118,16 @@ class FacebookButton extends StatelessWidget {
       width: gWidth,
       height: gHeight/15,
       child: ElevatedButton(
-        onPressed: () {
-         
+        onPressed: () async{
+             
+              
+                  
+          
+
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
-          backgroundColor: MaterialStateProperty.all(Color.fromRGBO(24 ,119, 242,1)),
+          backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(24 ,119, 242,1)),
           //elevation: MaterialStateProperty.all(0),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
         ),
@@ -154,8 +164,16 @@ class LoginButton extends StatelessWidget {
       width: gWidth,
       height: gHeight/15,
       child: ElevatedButton(
-        onPressed: () {
-         
+        onPressed: () async{
+            
+           final FirebaseAuth inst = FirebaseAuth.instance;
+           final GoogleSignIn gsign = GoogleSignIn();
+
+           final GoogleSignInAccount? guser = await gsign.signIn();
+           final GoogleSignInAuthentication gauth = await guser!.authentication;
+           final AuthCredential cred = GoogleAuthProvider.credential(idToken: gauth.idToken ,accessToken: gauth.accessToken);
+           final UserCredential usercred = await  inst.signInWithCredential(cred);
+
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
