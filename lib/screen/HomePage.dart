@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:echessapp/Utils/constrant.dart';
+import 'package:echessapp/screen/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +15,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     Size siize=MediaQuery.of(context).size;
@@ -55,8 +58,9 @@ class HomePage extends StatelessWidget {
               SizedBox(height: 25,),
               FacebookButton(),
               SizedBox(height: 25,),
-              appleButton()
-              
+              appleButton(),
+             
+               
             ],
           ),
         )
@@ -119,11 +123,8 @@ class FacebookButton extends StatelessWidget {
       height: gHeight/15,
       child: ElevatedButton(
         onPressed: () async{
-             
-              
-                  
-          
-
+             final authentications authf = authentications(); //fb authentication
+             authf.fbauth();
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
@@ -165,16 +166,11 @@ class LoginButton extends StatelessWidget {
       height: gHeight/15,
       child: ElevatedButton(
         onPressed: () async{
-            
-           final FirebaseAuth inst = FirebaseAuth.instance;
-           final GoogleSignIn gsign = GoogleSignIn();
 
-           final GoogleSignInAccount? guser = await gsign.signIn();
-           final GoogleSignInAuthentication gauth = await guser!.authentication;
-           final AuthCredential cred = GoogleAuthProvider.credential(idToken: gauth.idToken ,accessToken: gauth.accessToken);
-           final UserCredential usercred = await  inst.signInWithCredential(cred);
-
+            authentications authg = authentications(); //google authentication
+            authg.gauth();
         },
+
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
           backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 238, 238, 238)),
@@ -201,3 +197,4 @@ class LoginButton extends StatelessWidget {
     );
   }
 }
+
