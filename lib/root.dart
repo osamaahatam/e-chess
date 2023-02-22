@@ -1,6 +1,7 @@
+import 'package:echessapp/screen/HomePage.dart';
 import 'package:flutter/material.dart';
 
-import 'screen/HomePage.dart';
+import 'screen/LoginPage.dart';
 
 class Root extends StatelessWidget {
   const Root({super.key});
@@ -9,10 +10,12 @@ class Root extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: "Echess App",
       theme: ThemeData(
-        
+        scaffoldBackgroundColor: Colors.white,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home:const HomePage(),
+      home: HomePage(),
     );
   }
 }

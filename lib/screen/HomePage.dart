@@ -1,185 +1,180 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:echessapp/Utils/constrant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class HomePage extends StatelessWidget {
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var currentIndex=0;
+  var titleOfScreen="Home Screen";
+   
+  @override
   Widget build(BuildContext context) {
-    Size siize=MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.all(16),
-          width: gWidth,
-          height: gHeight,
-          child: Column(
-            children: [
-              //image
-              Container(
-                width: gWidth,
-                height: gHeight/4.5,
-              ),
-              //text
-              Container(
-                margin: EdgeInsets.only(top: 10,right: 240),
-                width: gWidth/3,
-                height: gHeight/15,
-                //color: Colors.red,
-                child: FittedBox(
-                  child: Text("Welcome",style: TextStyle(fontWeight: FontWeight.bold),),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(titleOfScreen,style: TextStyle(color: Colors.black),),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            
+          },
+          icon: Icon(MdiIcons.menu,color: Colors.black,)
+        ),
+        actions: [
+          IconButton(
+            onPressed: null,
+            icon: ClipOval(child: Image.asset("assets/icons/pro.jpeg")),
+          )
+        ],
+      ),
+      body:currentIndex == 0 ?  HomeScreen() :
+      Container(child: Center(child: Text("Osama Hatam"),),),
+      //Custom Navigation Bar for scrolling pages 
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.all(20),
+        height: gWidth*.155,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.15),
+              blurRadius: 30,
+              offset: Offset(0,10),
+            )
+          ],
+          borderRadius: BorderRadius.circular(20)
+        ),
+        child: ListView.builder(
+          itemCount: 4,
+          padding: EdgeInsets.symmetric(horizontal: gWidth*.024),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              //Changing the variable
+              setState(() {
+                currentIndex = index;
+                titleOfScreen=ListOfTitleScreen[index];
+                HapticFeedback.lightImpact();
+              });
+            },
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: gWidth*.2125,
+                  child: Center(
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      height: index == currentIndex ? gWidth*0.12 : 0,
+                      width: index == currentIndex ? gWidth*0.2125 : 0,
+                      decoration: BoxDecoration(
+                        color: index == currentIndex ? Colors.greenAccent.withOpacity(.2) : Colors.transparent, 
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      ),
+                  ),
                 ),
-              ),
-              //text 
-               Container(
-                margin: EdgeInsets.only(right: 150),
-                width: gWidth/2,
-                height: gHeight/18,
-                //color: Colors.red,
-                child: FittedBox(
-                  child: Text("Please sign in to use Echess",style: TextStyle(fontSize: 20),),
-                ),
-              ),
-              SizedBox(height:40 ,),
-              //Google Login Button
-              LoginButton(),
-              SizedBox(height: 25,),
-              FacebookButton(),
-              SizedBox(height: 25,),
-              appleButton()
-              
-            ],
+                Container(
+                  width: gWidth*.2125,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    ListOfIcon[index],
+                    size: gWidth*.076,
+                    color: index == currentIndex ? Colors.greenAccent : Colors.black26,
+                  ),
+                )
+              ],
+            ),
           ),
-        )
+          ),
       ),
     );
   }
 }
 
-class appleButton extends StatelessWidget {
-  const appleButton({
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: gWidth,
-      height: gHeight/15,
-      child: ElevatedButton(
-        onPressed: () {
-         
-        },
-        style: ButtonStyle(
-          overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
-          backgroundColor: MaterialStateProperty.all(Colors.black),
-          //elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 30,),
-            SizedBox(width: 35,
-            height: 35,
-            child: Image.asset("assets/icons/apple.png"),
+    return Column(
+      children: [
+        SizedBox(height: 20,),
+        Container(
+          child: CarouselSlider(
+            options: CarouselOptions(
+              height: 180.0,
+              enlargeCenterPage: true,
+              autoPlay: true,
+              aspectRatio: 16 / 9,
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enableInfiniteScroll: true,
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              viewportFraction: 0.8,
             ),
-            const SizedBox(width: 40,),
-            const Text("Login with Apple",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.w400
-            ),)
-          ],
+            items: [
+              Container(
+                margin: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: NetworkImage("https://images.pexels.com/photos/814133/pexels-photo-814133.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: NetworkImage("https://images.pexels.com/photos/112854/pexels-photo-112854.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: NetworkImage("https://images.pexels.com/photos/51930/chess-game-chessboard-glass-51930.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],    
+            )
         ),
-      )
+      ],
     );
   }
 }
 
-class FacebookButton extends StatelessWidget {
-  const FacebookButton({
-    Key? key,
-  }) : super(key: key);
+List<IconData> ListOfIcon =[
+  Icons.home_rounded,
+  Icons.settings_rounded,
+  Icons.book_rounded,
+  Icons.person_rounded,
+];
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: gWidth,
-      height: gHeight/15,
-      child: ElevatedButton(
-        onPressed: () {
-         
-        },
-        style: ButtonStyle(
-          overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
-          backgroundColor: MaterialStateProperty.all(Color.fromRGBO(24 ,119, 242,1)),
-          //elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 30,),
-            SizedBox(width: 35,
-            height: 35,
-            child: Image.asset("assets/icons/facebook.png"),
-            ),
-            const SizedBox(width: 40,),
-            const Text("Login with Facebook",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.w400
-            ),)
-          ],
-        ),
-      )
-    );
-  }
-}
-
-//Login Button 
-class LoginButton extends StatelessWidget {
-  const LoginButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: gWidth,
-      height: gHeight/15,
-      child: ElevatedButton(
-        onPressed: () {
-         
-        },
-        style: ButtonStyle(
-          overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
-          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 238, 238, 238)),
-          //elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 30,),
-            SizedBox(width: 35,
-            height: 35,
-            child: Image.asset("assets/icons/google.png"),
-            ),
-            const SizedBox(width: 40,),
-            const Text("Login with Google",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 17,
-              fontWeight: FontWeight.w400
-            ),)
-          ],
-        ),
-      )
-    );
-  }
-}
+List<String> ListOfTitleScreen=[
+  "Home Screen",
+  "Course Screen",
+  "Profile Screen",
+  "Setting Screen",
+];
