@@ -31,7 +31,7 @@ class ChapterList extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 50,left: 30,bottom: 50),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/icons/chessbackground.png"),fit: BoxFit.cover
+                    image: AssetImage("assets/icons/google.png"),fit: BoxFit.cover
                     )
                     ),
                 height: MediaQuery. of(context). size. height /3.2,
@@ -69,14 +69,18 @@ class ChapterList extends StatelessWidget {
                     child: InkWell(
                       
                       onTap: () async {
-                        
-                        final datapathdetail = await storage(datapath);
+                        try {
+                          final datapathdetail = await storage(datapath);
                         final Uint8List? pdfdata = await datapathdetail.items[index].getData(databytes);  //getting the data for pdf as bits
                         Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) =>  PDFview(pdfdatabits: pdfdata), //passing pdfdata to pdfview page
                           ),
                       );
+                        } catch (e) {
+                          
+                        }
+                        
                       
                       },
                       child: Container(
@@ -119,6 +123,5 @@ class ChapterList extends StatelessWidget {
 }
    Future<ListResult> storage(final _datapath)async {         
          ListResult listchapter = await _datapath.listAll();
-         
          return listchapter;      
    }
