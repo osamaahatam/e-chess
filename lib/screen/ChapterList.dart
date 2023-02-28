@@ -22,8 +22,6 @@ class ChapterList extends StatelessWidget {
 
     const databytes = 1024 * 1024; //how many megabytes for memory
       final datapath = inst.child("courses/$coursepath");
-      
-
         return Scaffold(
         backgroundColor: Colors.white,
         body:  

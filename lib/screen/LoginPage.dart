@@ -1,17 +1,7 @@
-import 'dart:convert';
-
 import 'package:echessapp/Utils/constrant.dart';
-import 'package:echessapp/screen/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:echessapp/Firebase/authentication.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 
 
 class LoginPage extends StatelessWidget {
@@ -111,6 +101,7 @@ class appleButton extends StatelessWidget {
   }
 }
 
+//Facebook login functionality
 class FacebookButton extends StatelessWidget {
    FacebookButton({
     Key? key,
@@ -129,7 +120,6 @@ class FacebookButton extends StatelessWidget {
                  final authentications authf = authentications(); //fb authentication
                  await authf.fbauth();
                  Navigator.pushNamed(context, '/homepage/');
-
           }catch(e){
               showDialog<void>(
     context: context,
@@ -156,7 +146,6 @@ class FacebookButton extends StatelessWidget {
     },
   );
           }
-             
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
@@ -199,40 +188,36 @@ class LoginButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () async{
             try{
-
-               authentications authg = authentications(); //google authentication
-               await authg.gauth();
+              authentications authg = authentications(); //google authentication
+              await authg.gauth();
               Navigator.pushNamed(context, '/homepage/');
-
             }catch(e){
-                    showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, 
-                          builder: (BuildContext context) {
-                          return AlertDialog(
-                          title: const Text('error accured'),
-                          content: SingleChildScrollView(
-                          child: ListBody(
-                          children: const <Widget>[
-                          Text('please try again later!'),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                              TextButton(
-                                child: const Text('ok'),
-                                  onPressed: () {
-                                        Navigator.of(context).pop();
-                        },
-                      ),
+              showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, 
+                    builder: (BuildContext context) {
+                    return AlertDialog(
+                    title: const Text('error accured'),
+                    content: SingleChildScrollView(
+                    child: ListBody(
+                    children: const <Widget>[
+                    Text('please try again later!'),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                        TextButton(
+                          child: const Text('ok'),
+                            onPressed: () {
+                                  Navigator.of(context).pop();
+                  },
+                ),
                     ],
                   );
                 },
               );
             }
-           
         },
-
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.3)),
           backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 238, 238, 238)),

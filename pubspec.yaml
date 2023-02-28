@@ -53,6 +53,12 @@ dependencies:
   path: ^1.7.0
   flutterfire_ui: ^0.3.2
   form_field_validator: ^1.1.0
+  carousel_slider: ^4.2.1
+  dropdown_button2: ^1.9.4
+  line_awesome_flutter: ^2.0.0
+  #
+ 
+  
   
 
 dependency_overrides:
@@ -85,8 +91,8 @@ flutter:
     - assets/icons/google.png
     - assets/icons/facebook.png
     - assets/icons/apple.png
-    - assets/icons/chessbackground.png
-    
+    - assets/images/chessbackground.png
+    - assets/images/pro.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
